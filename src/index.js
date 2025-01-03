@@ -4,7 +4,7 @@ const parser = new Parser();
 const url = 'https://en.cryptonomist.ch/feed/';
 let init = 0
 
-async function read (url){
+async function read(url) {
     try {
         const feed = await parser.parseURL(url);
         return {
@@ -19,27 +19,25 @@ async function read (url){
 
 const currentTitles = Array();
 function start(lenght = 0) {
-    setTimeout(async() => {
-        if(init === 0){
-            init = 1
-            start()
-        } else {
-            const dataFeeds = await read(url);
-            start(dataFeeds.items[0]);
-            dataFeeds.items.forEach((item, index) => {
+    setTimeout(async () => {
+        const dataFeeds = await read(url);
+        start(dataFeeds.items[0]);
+        dataFeeds.items.forEach((item, index) => {
             if (currentTitles.includes(item.title)) {
                 return;
-            }  else {
+            } else {
                 currentTitles.push(item.title);
-                tg.sendMessage(process.env.TELEGRAM_CHAT_ID, `
-<b>${item.title}</b>\n
-${item.content}\n
-<a href="${item.link}">${item.link}</a>\n
-                    `, item.link);
-
+                if (init === 0) {
+                    return
+                } else {
+                    tg.sendMessage(process.env.TELEGRAM_CHAT_ID, `
+                        <b>${item.title}</b>\n${item.content}\n<a href="${item.link}">${item.link}</a>\n`, item.link);
+                }
             }
-        })
         }
+    )
+    init = 1;
+
     }, 10000);
 }
 
