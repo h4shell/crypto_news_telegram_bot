@@ -1,0 +1,14 @@
+services:
+  cryptonews:
+    image: node:latest
+    volumes:
+      - ./src/:/usr/src/app
+    working_dir: /usr/src/app
+    container_name: cryptonews
+    ports:
+      - "3000:3000"
+    entrypoint: su -c "npm install && npm start"
+    restart: always
+    environment:
+      - TELEGRAM_BOT_TOKEN=???
+      - TELEGRAM_CHAT_ID=@h4cryptonews
