@@ -31,7 +31,7 @@ function start(lenght = 0) {
                     return
                 } else {
                     tg.sendMessage(process.env.TELEGRAM_CHAT_ID, `
-                        <b>${item.title}</b>\n${item.content}\n<a href="${item.link}">${item.link}</a>\n`, item.link);
+                        <b>${item.title}</b>\n\n${item.content}\n\n<a href="${item.link}">${item.link}</a>\n`, item.link);
                 }
             }
         }
